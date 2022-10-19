@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DALNorthWind.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutPages.cshtml";
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6 text-primary">
+            <h2>Suppliers</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp;Create New Supplier</a>
+        </div>
+    </div>
+</div>
+<div class="text-danger">
+    @ViewData["Error"]
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp; Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary"><i class="bi bi-card-list"></i>&nbsp; Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary"><i class="bi bi-trash3"></i>&nbsp; Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

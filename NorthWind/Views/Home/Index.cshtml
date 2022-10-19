@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using NorthWind.Models.Data;
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container">
+    <h1>Welcome</h1>
+    <p>Welcome to Northwind Company Limited</p>
+
+</div>
+<div>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        if (User.IsInRole(Enums.Roles.SuperAdmin.ToString()))
+        {
+            <div class="container m-3">
+                <h3>Manage Roles</h3>
+                <a asp-controller="RoleManager" asp-action="Index">Roles</a>
+                <h3>Manage User Roles</h3>
+                <a asp-controller="UserRoles" asp-action="Index">Assign User Roles</a>
+            </div>
+        }
+    }
+</div>
