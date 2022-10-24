@@ -7,55 +7,53 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DALNorthWind.Data;
 using DALNorthWind.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace NorthWind.Controllers.api
 {
-    [Authorize(Roles = "Customer")]
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class SuppliersController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
 
-        public CustomersController(ApplicationDBContext context)
+        public SuppliersController(ApplicationDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/Customers
+        // GET: api/Suppliers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
+        public async Task<ActionResult<IEnumerable<Supplier>>> GetSupplier()
         {
-            return await _context.Customer.ToListAsync();
+            return await _context.Supplier.ToListAsync();
         }
 
-        // GET: api/Customers/5
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        // GET: api/Suppliers/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Supplier>> GetSupplier(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
+            var supplier = await _context.Supplier.FindAsync(id);
 
-            if (customer == null)
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            return customer;
+            return supplier;
         }
 
-        // PUT: api/Customers/5
+        // PUT: api/Suppliers/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutSupplier(int id, Supplier supplier)
         {
-            if (id != customer.Id)
+            if (id != supplier.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
+            _context.Entry(supplier).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +61,7 @@ namespace NorthWind.Controllers.api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CustomerExists(id))
+                if (!SupplierExists(id))
                 {
                     return NotFound();
                 }
@@ -76,38 +74,37 @@ namespace NorthWind.Controllers.api
             return NoContent();
         }
 
-        // POST: api/Customers
+        // POST: api/Suppliers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Supplier>> PostSupplier(Supplier supplier)
         {
-            _context.Customer.Add(customer);
+            _context.Supplier.Add(supplier);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            return CreatedAtAction("GetSupplier", new { id = supplier.Id }, supplier);
         }
 
-        // DELETE: api/Customers/5
+        // DELETE: api/Suppliers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
+        public async Task<ActionResult<Supplier>> DeleteSupplier(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer == null)
+            var supplier = await _context.Supplier.FindAsync(id);
+            if (supplier == null)
             {
                 return NotFound();
             }
 
-            _context.Customer.Remove(customer);
+            _context.Supplier.Remove(supplier);
             await _context.SaveChangesAsync();
 
-            return customer;
+            return supplier;
         }
 
-        private bool CustomerExists(int id)
+        private bool SupplierExists(int id)
         {
-            return _context.Customer.Any(e => e.Id == id);
+            return _context.Supplier.Any(e => e.Id == id);
         }
     }
 }
